@@ -1,0 +1,18 @@
+###
+GET http://localhost:8080
+
+###
+POST http://localhost:8080/auth/register
+
+
+###
+POST http://localhost:8080/auth/login
+
+
+###
+POST http://localhost:8080/auth/refresh-token
+
+
+###
+DELETE http://localhost:8080/auth/logout
+
