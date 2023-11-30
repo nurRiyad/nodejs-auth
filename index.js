@@ -2,10 +2,13 @@ const express = require("express");
 const morgan = require("morgan");
 const dotEnv = require("dotenv");
 
-const authRoute = require("./routes/Auth.route");
-
 // For reading environment variable
 dotEnv.config();
+
+// init mongo db
+require("./helper/mong_init");
+
+const authRoute = require("./routes/Auth.route");
 
 const app = express();
 app.use(morgan("dev"));
