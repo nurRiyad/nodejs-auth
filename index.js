@@ -2,16 +2,17 @@ const express = require("express");
 const morgan = require("morgan");
 const dotEnv = require("dotenv");
 
+const authRoute = require("./routes/Auth.route");
+
 // For reading environment variable
 dotEnv.config();
 
 // init mongo db
-require("./helper/mong_init");
-
-const authRoute = require("./routes/Auth.route");
+require("./helper/mongoInit");
 
 const app = express();
 app.use(morgan("dev"));
+app.use(express.json());
 
 app.get("/", async (req, res) => {
   res.send("Hello from express");
@@ -23,16 +24,17 @@ app.use("/auth", authRoute);
 app.use(async (req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
-
   next(error);
 });
 
 // Error handler
-app.use(async (err, req, res, next) => {
-  res.status = err.status || 5000;
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
   res.send({
-    error: err.status || 500,
-    message: err.message,
+    error: {
+      status: err.status || 500,
+      message: err.message,
+    },
   });
 });
 
